@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bridging Belief & Reason | MindBridge 2026</title>
+    <title>Bridging Belief & Reason | MindBridge 2026 | Mahindra University</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -12,7 +12,7 @@
         body { font-family: 'Inter', sans-serif; }
         h1, h2, h3 { font-family: 'Playfair Display', serif; }
         
-        .section { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .section { display: none; animation: fadeIn 0.5s ease-in; }
         .section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
@@ -94,18 +94,20 @@
         <section id="home" class="section active">
             <div class="text-center py-12 mb-10">
                 <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full mb-6 text-2xl"><i class="fas fa-brain"></i></div>
-                <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Bridging Belief & Reason</h1>
-                <p class="text-xl text-slate-600 max-w-2xl mx-auto mb-6">Technology Solutions for Black Magic Distress</p>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4 tracking-tight">Bridging Belief & Reason</h1>
+                <p class="text-xl text-slate-600 max-w-2xl mx-auto mb-6 leading-relaxed">Technology Solutions for Black Magic Distress</p>
                 <p class="text-sm text-slate-500 mb-8">Design Thinking Project 2026 · School of Design Innovation · Mahindra University</p>
-                <div class="flex justify-center gap-4 flex-wrap">
-                    <a href="https://mindbridge-compassion-ai.lovable.app/" target="_blank" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-600/20 flex items-center gap-2"><i class="fas fa-rocket"></i> Open Live App</a>
-                    <button onclick="showSection('team')" class="bg-white text-slate-700 border border-slate-300 px-8 py-3 rounded-lg font-semibold hover:bg-slate-50 transition">Meet the Team</button>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="https://mindbridge-compassion-ai.lovable.app/" target="_blank" class="bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-600/20 flex items-center gap-2"><i class="fas fa-rocket"></i> Open Live App</a>
+                    <button onclick="showSection('ideas')" class="bg-white text-slate-700 border border-slate-300 px-8 py-3 rounded-xl font-semibold hover:bg-slate-50 transition flex items-center gap-2"><i class="fas fa-lightbulb"></i> View 192 Ideas</button>
                 </div>
             </div>
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center"><div class="text-3xl font-bold text-blue-600 mb-2">310</div><div class="text-sm text-slate-500">Survey Responses</div></div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center"><div class="text-3xl font-bold text-purple-600 mb-2">192</div><div class="text-sm text-slate-500">Ideas Generated</div></div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center"><div class="text-3xl font-bold text-green-600 mb-2">8</div><div class="text-sm text-slate-500">Team Members</div></div>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-16">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center hover:shadow-md transition"><div class="text-3xl font-bold text-blue-600 mb-1">310</div><div class="text-sm text-slate-500 font-medium">Survey Responses</div></div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center hover:shadow-md transition"><div class="text-3xl font-bold text-purple-600 mb-1">192</div><div class="text-sm text-slate-500 font-medium">Ideas Generated</div></div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center hover:shadow-md transition"><div class="text-3xl font-bold text-green-600 mb-1">11</div><div class="text-sm text-slate-500 font-medium">Court Cases</div></div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center hover:shadow-md transition"><div class="text-3xl font-bold text-orange-600 mb-1">5</div><div class="text-sm text-slate-500 font-medium">Interviews</div></div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center hover:shadow-md transition"><div class="text-3xl font-bold text-indigo-600 mb-1">8</div><div class="text-sm text-slate-500 font-medium">Team Members</div></div>
             </div>
         </section>
 
@@ -532,11 +534,10 @@
                         </div>
                         <div class="flex gap-2">
                             <a href="${data}" download="${file.name}" class="text-xs bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition">Download</a>
-                            <button onclick="this.parentElement.parentElement.remove()" class="text-xs bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition">Delete</button>
+                            <button onclick="removeFile('${file.name}')" class="text-xs bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition">Delete</button>
                         </div>
                     `;
                     list.appendChild(item);
-                    // Save to localStorage for persistence
                     let saved = JSON.parse(localStorage.getItem('uploadedFiles') || '[]');
                     saved.push({ name: file.name, type: file.type, size: file.size, data: data, date: new Date().toLocaleString() });
                     localStorage.setItem('uploadedFiles', JSON.stringify(saved));
