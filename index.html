@@ -3,93 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MindBridge | Design Thinking Project 2026</title>
-    <!-- Tailwind CSS -->
+    <title>Bridging Belief & Reason | MindBridge 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; }
         h1, h2, h3 { font-family: 'Playfair Display', serif; }
         
-        /* Section Visibility */
         .section { display: none; animation: fadeIn 0.4s ease-in-out; }
         .section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Sidebar Navigation */
         .nav-item { transition: all 0.2s; border-left: 3px solid transparent; }
         .nav-item:hover { background-color: #f1f5f9; }
         .nav-item.active { background-color: #eff6ff; border-left-color: #3b82f6; color: #1d4ed8; font-weight: 600; }
         
-        /* Idea Cards */
-        .idea-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            border: 1px solid #e2e8f0;
-            display: flex;
-            flex-direction: column;
-        }
+        .upload-area { border: 2px dashed #cbd5e1; transition: all 0.3s; cursor: pointer; }
+        .upload-area:hover { border-color: #3b82f6; background-color: #f8fafc; }
+        
+        .team-card { position: relative; overflow: hidden; }
+        .team-card:hover .photo-upload { opacity: 1; transform: translateY(0); }
+        .photo-upload { position: absolute; bottom: 12px; right: 12px; background: rgba(255,255,255,0.95); padding: 8px; border-radius: 50%; cursor: pointer; opacity: 0; transform: translateY(10px); transition: all 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        
+        .idea-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: all 0.3s; border: 1px solid #e2e8f0; display: flex; flex-direction: column; }
         .idea-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-color: #3b82f6; }
         
-        /* Category Borders */
-        .idea-card[data-category="most-productive"] { border-left: 4px solid #10b981; }
-        .idea-card[data-category="most-effective"] { border-left: 4px solid #3b82f6; }
-        .idea-card[data-category="most-feasible"] { border-left: 4px solid #8b5cf6; }
-        .idea-card[data-category="less-productive"] { border-left: 4px solid #f59e0b; }
-        .idea-card[data-category="less-effective"] { border-left: 4px solid #ef4444; }
-        .idea-card[data-category="less-feasible"] { border-left: 4px solid #6b7280; }
+        .filter-btn { padding: 6px 12px; border-radius: 20px; border: 1px solid #e2e8f0; background: white; cursor: pointer; font-size: 12px; font-weight: 500; transition: all 0.2s; color: #475569; }
+        .filter-btn:hover, .filter-btn.active { background: #3b82f6; color: white; border-color: #3b82f6; }
         
-        /* Filter Buttons */
-        .filter-btn {
-            padding: 6px 12px;
-            border-radius: 20px;
-            border: 1px solid #e2e8f0;
-            background: white;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 500;
-            transition: all 0.2s;
-            color: #475569;
-        }
-        .filter-btn:hover { background: #f1f5f9; }
-        .filter-btn.active { background: #3b82f6; color: white; border-color: #3b82f6; }
-        
-        /* Team Photo Upload */
-        .team-card { position: relative; overflow: hidden; border-radius: 16px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: all 0.3s ease; }
-        .team-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .photo-upload {
-            position: absolute; bottom: 12px; right: 12px;
-            background: rgba(255,255,255,0.95); padding: 8px; border-radius: 50%;
-            cursor: pointer; display: none; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .team-card:hover .photo-upload { display: flex; }
-        
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="text-slate-800">
+<body class="bg-slate-50 text-slate-800">
 
     <!-- Top Navigation -->
     <nav class="bg-white border-b border-slate-200 fixed w-full z-50 h-16 flex items-center justify-between px-6 shadow-sm">
         <div class="flex items-center gap-3">
-            <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
-                <i class="fas fa-brain"></i>
-            </div>
+            <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-lg"><i class="fas fa-brain"></i></div>
             <span class="font-bold text-xl tracking-tight">MindBridge</span>
         </div>
         <div class="hidden md:flex gap-6 text-sm font-medium text-slate-600">
-            <a href="https://mindbridge-compassion-ai.lovable.app/" target="_blank" class="hover:text-blue-600"><i class="fas fa-rocket mr-1"></i> Live App</a>
+            <a href="https://mindbridge-compassion-ai.lovable.app/" target="_blank" class="hover:text-blue-600 flex items-center gap-1"><i class="fas fa-rocket"></i> Live App</a>
             <button onclick="showSection('home')" class="hover:text-blue-600">Home</button>
             <button onclick="showSection('team')" class="hover:text-blue-600">Team</button>
             <button onclick="showSection('ideas')" class="hover:text-blue-600">192 Ideas</button>
@@ -102,28 +61,27 @@
             <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-2">Navigation</p>
             <nav class="space-y-1">
                 <button onclick="showSection('home')" class="nav-item active w-full text-left px-3 py-2.5 rounded-md text-slate-600 text-sm flex items-center gap-3"><i class="fas fa-home w-5 text-center"></i> Home</button>
-                <button onclick="showSection('team')" class="nav-item w-full text-left px-3 py-2.5 rounded-md text-slate-600 text-sm flex items-center gap-3"><i class="fas fa-users w-5 text-center"></i> Team Members</button>
-                <button onclick="showSection('protagonist')" class="nav-item w-full text-left px-3 py-2.5 rounded-md text-slate-600 text-sm flex items-center gap-3"><i class="fas fa-user-circle w-5 text-center"></i> User Persona</button>
+                <button onclick="showSection('team')" class="nav-item w-full text-left px-3 py-2.5 rounded-md text-slate-600 text-sm flex items-center gap-3"><i class="fas fa-users w-5 text-center"></i> Team</button>
+                <button onclick="showSection('protagonist')" class="nav-item w-full text-left px-3 py-2.5 rounded-md text-slate-600 text-sm flex items-center gap-3"><i class="fas fa-user-circle w-5 text-center"></i> Protagonist</button>
                 <button onclick="showSection('context')" class="nav-item w-full text-left px-3 py-2.5 rounded-md text-slate-600 text-sm flex items-center gap-3"><i class="fas fa-globe w-5 text-center"></i> Context</button>
-                <button onclick="showSection('evidence')" class="nav-item w-full text-left px-3 py-2.5 rounded-md text-slate-600 text-sm flex items-center gap-3"><i class="fas fa-chart-bar w-5 text-center"></i> Evidence Base</button>
+                <button onclick="showSection('evidence')" class="nav-item w-full text-left px-3 py-2.5 rounded-md text-slate-600 text-sm flex items-center gap-3"><i class="fas fa-chart-bar w-5 text-center"></i> Evidence</button>
                 <button onclick="showSection('painpoints')" class="nav-item w-full text-left px-3 py-2.5 rounded-md text-slate-600 text-sm flex items-center gap-3"><i class="fas fa-exclamation-triangle w-5 text-center"></i> Pain Points</button>
                 <button onclick="showSection('rootcauses')" class="nav-item w-full text-left px-3 py-2.5 rounded-md text-slate-600 text-sm flex items-center gap-3"><i class="fas fa-search w-5 text-center"></i> Root Causes</button>
                 <button onclick="showSection('hmw')" class="nav-item w-full text-left px-3 py-2.5 rounded-md text-slate-600 text-sm flex items-center gap-3"><i class="fas fa-lightbulb w-5 text-center"></i> How Might We?</button>
-                <button onclick="showSection('ideas')" class="nav-item w-full text-left px-3 py-2.5 rounded-md text-slate-600 text-sm flex items-center gap-3"><i class="fas fa-star w-5 text-center"></i> All 192 Ideas</button>
+                <button onclick="showSection('topideas')" class="nav-item w-full text-left px-3 py-2.5 rounded-md text-slate-600 text-sm flex items-center gap-3"><i class="fas fa-star w-5 text-center"></i> Top Ideas</button>
+                <button onclick="showSection('allideas')" class="nav-item w-full text-left px-3 py-2.5 rounded-md text-slate-600 text-sm flex items-center gap-3"><i class="fas fa-list w-5 text-center"></i> All 192 Ideas</button>
                 <button onclick="showSection('prototype')" class="nav-item w-full text-left px-3 py-2.5 rounded-md text-slate-600 text-sm flex items-center gap-3"><i class="fas fa-project-diagram w-5 text-center"></i> Prototype</button>
                 <button onclick="showSection('courtcases')" class="nav-item w-full text-left px-3 py-2.5 rounded-md text-slate-600 text-sm flex items-center gap-3"><i class="fas fa-gavel w-5 text-center"></i> Court Cases</button>
                 <button onclick="showSection('conclusion')" class="nav-item w-full text-left px-3 py-2.5 rounded-md text-slate-600 text-sm flex items-center gap-3"><i class="fas fa-flag-checkered w-5 text-center"></i> Conclusion</button>
                 <button onclick="showSection('uploads')" class="nav-item w-full text-left px-3 py-2.5 rounded-md text-slate-600 text-sm flex items-center gap-3"><i class="fas fa-upload w-5 text-center"></i> Uploads</button>
             </nav>
-
-            <!-- Stats Box -->
             <div class="mt-6 bg-slate-50 rounded-xl p-4 border border-slate-200">
                 <h4 class="text-xs font-bold text-slate-500 uppercase mb-3">Project Stats</h4>
                 <div class="grid grid-cols-2 gap-3 text-center">
                     <div class="bg-white p-2 rounded shadow-sm"><div class="text-lg font-bold text-blue-600">310</div><div class="text-[10px] text-slate-500">Responses</div></div>
                     <div class="bg-white p-2 rounded shadow-sm"><div class="text-lg font-bold text-purple-600">192</div><div class="text-[10px] text-slate-500">Ideas</div></div>
                     <div class="bg-white p-2 rounded shadow-sm"><div class="text-lg font-bold text-green-600">8</div><div class="text-[10px] text-slate-500">Members</div></div>
-                    <div class="bg-white p-2 rounded shadow-sm"><div class="text-lg font-bold text-orange-600">5</div><div class="text-[10px] text-slate-500">Interviews</div></div>
+                    <div class="bg-white p-2 rounded shadow-sm"><div class="text-lg font-bold text-orange-600">11</div><div class="text-[10px] text-slate-500">Cases</div></div>
                 </div>
             </div>
         </div>
@@ -131,60 +89,39 @@
 
     <!-- Main Content -->
     <main class="lg:ml-64 pt-24 pb-12 px-4 sm:px-8 max-w-7xl mx-auto min-h-screen">
-
-        <!-- ================= SECTION: HOME ================= -->
+        
+        <!-- HOME -->
         <section id="home" class="section active">
             <div class="text-center py-12 mb-10">
-                <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full mb-6 text-2xl">
-                    <i class="fas fa-brain"></i>
-                </div>
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full mb-6 text-2xl"><i class="fas fa-brain"></i></div>
                 <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Bridging Belief & Reason</h1>
-                <p class="text-xl text-slate-600 max-w-2xl mx-auto mb-8">Technology solutions for black magic distress. A Design Thinking project by the School of Design Innovation, Mahindra University.</p>
-                <div class="flex justify-center gap-4">
-                    <button onclick="showSection('ideas')" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-600/20">View 192 Ideas</button>
-                    <a href="https://mindbridge-compassion-ai.lovable.app/" target="_blank" class="bg-white text-slate-700 border border-slate-300 px-8 py-3 rounded-lg font-semibold hover:bg-slate-50 transition">Open Live App</a>
+                <p class="text-xl text-slate-600 max-w-2xl mx-auto mb-6">Technology Solutions for Black Magic Distress</p>
+                <p class="text-sm text-slate-500 mb-8">Design Thinking Project 2026 · School of Design Innovation · Mahindra University</p>
+                <div class="flex justify-center gap-4 flex-wrap">
+                    <a href="https://mindbridge-compassion-ai.lovable.app/" target="_blank" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-600/20 flex items-center gap-2"><i class="fas fa-rocket"></i> Open Live App</a>
+                    <button onclick="showSection('team')" class="bg-white text-slate-700 border border-slate-300 px-8 py-3 rounded-lg font-semibold hover:bg-slate-50 transition">Meet the Team</button>
                 </div>
             </div>
-            
-            <!-- Quick Stats -->
-            <div class="grid md:grid-cols-4 gap-6 mb-8">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center">
-                    <div class="text-3xl font-bold text-blue-600 mb-1">310</div>
-                    <div class="text-sm text-slate-500">Survey Responses</div>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center">
-                    <div class="text-3xl font-bold text-purple-600 mb-1">192</div>
-                    <div class="text-sm text-slate-500">Ideas Generated</div>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center">
-                    <div class="text-3xl font-bold text-green-600 mb-1">8</div>
-                    <div class="text-sm text-slate-500">Team Members</div>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center">
-                    <div class="text-3xl font-bold text-orange-600 mb-1">11</div>
-                    <div class="text-sm text-slate-500">Court Cases</div>
-                </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center"><div class="text-3xl font-bold text-blue-600 mb-2">310</div><div class="text-sm text-slate-500">Survey Responses</div></div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center"><div class="text-3xl font-bold text-purple-600 mb-2">192</div><div class="text-sm text-slate-500">Ideas Generated</div></div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center"><div class="text-3xl font-bold text-green-600 mb-2">8</div><div class="text-sm text-slate-500">Team Members</div></div>
             </div>
         </section>
 
-        <!-- ================= SECTION: TEAM ================= -->
+        <!-- TEAM -->
         <section id="team" class="section">
             <div class="mb-8 text-center">
                 <h2 class="text-3xl font-bold text-slate-900">Meet Our Talented Team</h2>
-                <p class="text-slate-500 mt-2">8 passionate engineers building MindBridge</p>
+                <p class="text-slate-500 mt-2">8 passionate engineers from Mahindra University</p>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="team-grid">
-                <!-- Team cards injected by JS -->
-            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="team-grid"></div>
         </section>
 
-        <!-- ================= SECTION: PROTAGONIST ================= -->
+        <!-- PROTAGONIST -->
         <section id="protagonist" class="section">
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden max-w-4xl mx-auto">
-                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-8 text-white">
-                    <h2 class="text-3xl font-bold mb-2">User Persona</h2>
-                    <p class="opacity-90">"Akhil" — The Skeptic Turned Believer</p>
-                </div>
+                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-8 text-white"><h2 class="text-3xl font-bold mb-2">User Persona</h2><p class="opacity-90">"Akhil" — The Skeptic Turned Believer</p></div>
                 <div class="p-8 grid md:grid-cols-3 gap-8">
                     <div class="md:col-span-1 text-center">
                         <div class="w-32 h-32 bg-slate-200 rounded-full mx-auto mb-4 flex items-center justify-center text-4xl">👤</div>
@@ -193,17 +130,15 @@
                         <div class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1 rounded-full inline-block">The "Gray Zone" User</div>
                     </div>
                     <div class="md:col-span-2 space-y-4">
-                        <blockquote class="border-l-4 border-blue-500 pl-4 italic text-slate-600 text-lg">
-                            "I don't know what I believe anymore. It sits in this uncomfortable middle space."
-                        </blockquote>
+                        <blockquote class="border-l-4 border-blue-500 pl-4 italic text-slate-600 text-lg">"I don't know what I believe anymore. It sits in this uncomfortable middle space."</blockquote>
                         <div class="bg-slate-50 p-4 rounded-lg">
                             <h4 class="font-bold text-slate-800 mb-2">Key Background</h4>
                             <ul class="space-y-2 text-sm text-slate-600">
-                                <li class="flex items-start gap-2"><i class="fas fa-check text-green-500 mt-1"></i> Science-minded, initially didn't believe in black magic.</li>
-                                <li class="flex items-start gap-2"><i class="fas fa-check text-green-500 mt-1"></i> Participated in a ritual to "prove it was fake".</li>
-                                <li class="flex items-start gap-2"><i class="fas fa-check text-green-500 mt-1"></i> Experienced blackout & 14–16 hours of psychological distress.</li>
-                                <li class="flex items-start gap-2"><i class="fas fa-check text-green-500 mt-1"></i> Anti-depressants didn't fully help; recovered in 10–15 days.</li>
-                                <li class="flex items-start gap-2"><i class="fas fa-check text-green-500 mt-1"></i> Now seeks validation for both scientific and cultural explanations.</li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check text-green-500 mt-1"></i> Science-minded, initially didn't believe in black magic</li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check text-green-500 mt-1"></i> Participated in a ritual to "prove it was fake"</li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check text-green-500 mt-1"></i> Experienced blackout & 14–16 hours of psychological distress</li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check text-green-500 mt-1"></i> Anti-depressants didn't fully help; recovered in 10–15 days</li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check text-green-500 mt-1"></i> Now seeks validation for both scientific and cultural explanations</li>
                             </ul>
                         </div>
                     </div>
@@ -211,15 +146,13 @@
             </div>
         </section>
 
-        <!-- ================= SECTION: CONTEXT ================= -->
+        <!-- CONTEXT -->
         <section id="context" class="section">
             <div class="max-w-4xl mx-auto">
                 <h2 class="text-3xl font-bold text-slate-900 mb-6">Context & Situation</h2>
                 <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 mb-6">
                     <h3 class="text-xl font-bold text-slate-800 mb-4">Research Scope</h3>
-                    <p class="text-slate-600 leading-relaxed mb-6">
-                        We surveyed <strong>310 university students</strong> (18–25 yrs) and conducted <strong>5 in-depth interviews</strong>. Our research reveals that young Indians often sit in a "gray zone" between scientific education and cultural tradition, facing distress without integrated support systems that honor both realities.
-                    </p>
+                    <p class="text-slate-600 leading-relaxed mb-6">We surveyed <strong>310 university students</strong> (18–25 yrs) and conducted <strong>5 in-depth interviews</strong>. Our research reveals that young Indians often sit in a "gray zone" between scientific education and cultural tradition, facing distress without integrated support systems that honor both realities.</p>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
                         <div class="bg-blue-50 p-4 rounded-lg"><div class="text-2xl font-bold text-blue-600">310</div><div class="text-xs text-blue-800">Survey Responses</div></div>
                         <div class="bg-purple-50 p-4 rounded-lg"><div class="text-2xl font-bold text-purple-600">5</div><div class="text-xs text-purple-800">Deep Interviews</div></div>
@@ -234,12 +167,11 @@
             </div>
         </section>
 
-        <!-- ================= SECTION: EVIDENCE ================= -->
+        <!-- EVIDENCE -->
         <section id="evidence" class="section">
             <div class="max-w-5xl mx-auto">
                 <h2 class="text-3xl font-bold text-slate-900 mb-6">Evidence Base</h2>
                 <p class="text-slate-600 mb-8">Data from 310 verified responses — patterns reveal fragmented support and high demand for integrated guidance.</p>
-                
                 <div class="grid md:grid-cols-2 gap-8 mb-8">
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
                         <h3 class="font-bold text-lg mb-4">Belief Distribution</h3>
@@ -251,32 +183,23 @@
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
                         <h3 class="font-bold text-lg mb-4">Mental Health Impact</h3>
-                        <div class="flex items-center justify-center h-full flex-col">
-                            <div class="text-4xl font-bold text-blue-600 mb-2">53.5%</div>
-                            <p class="text-center text-slate-600">Report "A Lot" or "Somewhat" affected by belief in black magic.</p>
-                        </div>
+                        <div class="flex items-center justify-center h-full flex-col"><div class="text-4xl font-bold text-blue-600 mb-2">53.5%</div><p class="text-center text-slate-600">Report "A Lot" or "Somewhat" affected by belief in black magic.</p></div>
                     </div>
                 </div>
                 <div class="grid md:grid-cols-2 gap-8">
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
                         <h3 class="font-bold text-lg mb-4">Help-Seeking Preferences</h3>
-                        <ul class="space-y-3 text-sm">
-                            <li class="flex items-center gap-3"><div class="w-3 h-3 bg-blue-500 rounded-full"></div> 51.2% prefer medical or combined support</li>
-                            <li class="flex items-center gap-3"><div class="w-3 h-3 bg-purple-500 rounded-full"></div> High demand for integrated pathways</li>
-                        </ul>
+                        <ul class="space-y-3 text-sm"><li class="flex items-center gap-3"><div class="w-3 h-3 bg-blue-500 rounded-full"></div> 51.2% prefer medical or combined support</li><li class="flex items-center gap-3"><div class="w-3 h-3 bg-purple-500 rounded-full"></div> High demand for integrated pathways</li></ul>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
                         <h3 class="font-bold text-lg mb-4">Experience Rate</h3>
-                        <ul class="space-y-3 text-sm">
-                            <li class="flex items-center gap-3"><div class="w-3 h-3 bg-orange-500 rounded-full"></div> 45.8% reported unexplained phenomena</li>
-                            <li class="flex items-center gap-3"><div class="w-3 h-3 bg-red-500 rounded-full"></div> Nearly half experienced unexplained events</li>
-                        </ul>
+                        <ul class="space-y-3 text-sm"><li class="flex items-center gap-3"><div class="w-3 h-3 bg-orange-500 rounded-full"></div> 45.8% reported unexplained phenomena</li><li class="flex items-center gap-3"><div class="w-3 h-3 bg-red-500 rounded-full"></div> Nearly half experienced unexplained events</li></ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ================= SECTION: PAIN POINTS ================= -->
+        <!-- PAIN POINTS -->
         <section id="painpoints" class="section">
             <div class="max-w-5xl mx-auto">
                 <h2 class="text-3xl font-bold text-slate-900 mb-6">Pain Points & Needs</h2>
@@ -308,107 +231,79 @@
             </div>
         </section>
 
-        <!-- ================= SECTION: ROOT CAUSES ================= -->
+        <!-- ROOT CAUSES -->
         <section id="rootcauses" class="section">
             <div class="max-w-4xl mx-auto">
                 <h2 class="text-3xl font-bold text-slate-900 mb-6">Root Causes (5 Whys)</h2>
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8 relative">
                     <div class="absolute left-10 top-8 bottom-8 w-0.5 bg-slate-200"></div>
                     <div class="space-y-8 relative">
-                        <div class="flex gap-6">
-                            <div class="w-8 h-8 bg-slate-800 text-white rounded-full flex items-center justify-center font-bold z-10 shrink-0">P</div>
-                            <div>
-                                <h3 class="font-bold text-lg text-slate-900">Problem Statement</h3>
-                                <p class="text-slate-600">Young adults experiencing supernatural distress have no safe, effective support system</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-6">
-                            <div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold z-10 shrink-0">1</div>
-                            <div>
-                                <h3 class="font-bold text-slate-900">Why? — Cultural & Traditional Influence</h3>
-                                <p class="text-slate-600">Family, religion, and community traditions normalize supernatural beliefs without scientific grounding</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-6">
-                            <div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold z-10 shrink-0">2</div>
-                            <div>
-                                <h3 class="font-bold text-slate-900">Why? — Fear & Emotional Vulnerability</h3>
-                                <p class="text-slate-600">Stress, anxiety, and fear of the unknown encourage supernatural explanations over psychological ones</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-6">
-                            <div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold z-10 shrink-0">3</div>
-                            <div>
-                                <h3 class="font-bold text-slate-900">Why? — Media Influence & Low Scientific Awareness</h3>
-                                <p class="text-slate-600">Paranormal media and limited scientific understanding strengthen irrational beliefs</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-6">
-                            <div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold z-10 shrink-0">4</div>
-                            <div>
-                                <h3 class="font-bold text-slate-900">Why? — Social Reinforcement</h3>
-                                <p class="text-slate-600">Community influence and spiritual healers reinforce belief and provide emotional comfort</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-6">
-                            <div class="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold z-10 shrink-0"><i class="fas fa-bullseye text-xs"></i></div>
-                            <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
-                                <h3 class="font-bold text-purple-900">Root Cause</h3>
-                                <p class="text-purple-800 text-sm">No culturally-sensitive platforms exist that distinguish legitimate practices from exploitation, explain psychological mechanisms accessibly, provide integrated support pathways, and create safe spaces for the "gray zone" of uncertainty.</p>
-                            </div>
-                        </div>
+                        <div class="flex gap-6"><div class="w-8 h-8 bg-slate-800 text-white rounded-full flex items-center justify-center font-bold z-10 shrink-0">P</div><div><h3 class="font-bold text-lg text-slate-900">Problem Statement</h3><p class="text-slate-600">Young adults experiencing supernatural distress have no safe, effective support system</p></div></div>
+                        <div class="flex gap-6"><div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold z-10 shrink-0">1</div><div><h3 class="font-bold text-slate-900">Why? — Cultural & Traditional Influence</h3><p class="text-slate-600">Family, religion, and community traditions normalize supernatural beliefs without scientific grounding</p></div></div>
+                        <div class="flex gap-6"><div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold z-10 shrink-0">2</div><div><h3 class="font-bold text-slate-900">Why? — Fear & Emotional Vulnerability</h3><p class="text-slate-600">Stress, anxiety, and fear of the unknown encourage supernatural explanations over psychological ones</p></div></div>
+                        <div class="flex gap-6"><div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold z-10 shrink-0">3</div><div><h3 class="font-bold text-slate-900">Why? — Media Influence & Low Scientific Awareness</h3><p class="text-slate-600">Paranormal media and limited scientific understanding strengthen irrational beliefs</p></div></div>
+                        <div class="flex gap-6"><div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold z-10 shrink-0">4</div><div><h3 class="font-bold text-slate-900">Why? — Social Reinforcement</h3><p class="text-slate-600">Community influence and spiritual healers reinforce belief and provide emotional comfort</p></div></div>
+                        <div class="flex gap-6"><div class="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold z-10 shrink-0"><i class="fas fa-bullseye text-xs"></i></div><div class="bg-purple-50 p-4 rounded-lg border border-purple-200"><h3 class="font-bold text-purple-900">Root Cause</h3><p class="text-purple-800 text-sm">No culturally-sensitive platforms exist that distinguish legitimate practices from exploitation, explain psychological mechanisms accessibly, provide integrated support pathways, and create safe spaces for the "gray zone" of uncertainty.</p></div></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ================= SECTION: HOW MIGHT WE ================= -->
+        <!-- HMW -->
         <section id="hmw" class="section">
             <div class="max-w-5xl mx-auto">
                 <h2 class="text-3xl font-bold text-slate-900 mb-6">How Might We…?</h2>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-white p-6 rounded-xl shadow-sm border-t-4 border-yellow-400">
-                        <h3 class="font-bold text-lg mb-2">💭 HMW #1</h3>
-                        <p class="text-sm text-slate-600">Provide 24/7 confidential counseling with grounding and culturally-sensitive support for students in distress?</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm border-t-4 border-blue-400">
-                        <h3 class="font-bold text-lg mb-2">🔍 HMW #2</h3>
-                        <p class="text-sm text-slate-600">Help users distinguish between legitimate cultural practitioners and those exploiting supernatural beliefs?</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm border-t-4 border-green-400">
-                        <h3 class="font-bold text-lg mb-2">🤝 HMW #3</h3>
-                        <p class="text-sm text-slate-600">Use AI-based assessments to guide users toward suitable medical, cultural, or integrated support?</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm border-t-4 border-purple-400">
-                        <h3 class="font-bold text-lg mb-2">📱 HMW #4</h3>
-                        <p class="text-sm text-slate-600">Build a transparent certification system for ethical cultural practitioners who respect mental health boundaries?</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm border-t-4 border-orange-400">
-                        <h3 class="font-bold text-lg mb-2">🎓 HMW #5</h3>
-                        <p class="text-sm text-slate-600">Improve media literacy to help people identify superstition-based scams and misinformation?</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm border-t-4 border-red-400">
-                        <h3 class="font-bold text-lg mb-2">🚨 HMW #6</h3>
-                        <p class="text-sm text-slate-600">Create rapid-response teams combining psychological aid and cultural mediation for acute distress?</p>
-                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-t-4 border-yellow-400"><h3 class="font-bold text-lg mb-2">💭 HMW #1</h3><p class="text-sm text-slate-600">Provide 24/7 confidential counseling with grounding and culturally-sensitive support for students in distress?</p></div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-t-4 border-blue-400"><h3 class="font-bold text-lg mb-2">🔍 HMW #2</h3><p class="text-sm text-slate-600">Help users distinguish between legitimate cultural practitioners and those exploiting supernatural beliefs?</p></div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-t-4 border-green-400"><h3 class="font-bold text-lg mb-2">🤝 HMW #3</h3><p class="text-sm text-slate-600">Use AI-based assessments to guide users toward suitable medical, cultural, or integrated support?</p></div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-t-4 border-purple-400"><h3 class="font-bold text-lg mb-2">📱 HMW #4</h3><p class="text-sm text-slate-600">Build a transparent certification system for ethical cultural practitioners who respect mental health boundaries?</p></div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-t-4 border-orange-400"><h3 class="font-bold text-lg mb-2">🎓 HMW #5</h3><p class="text-sm text-slate-600">Improve media literacy to help people identify superstition-based scams and misinformation?</p></div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-t-4 border-red-400"><h3 class="font-bold text-lg mb-2">🚨 HMW #6</h3><p class="text-sm text-slate-600">Create rapid-response teams combining psychological aid and cultural mediation for acute distress?</p></div>
                 </div>
             </div>
         </section>
 
-        <!-- ================= SECTION: IDEAS (192 IDEAS) ================= -->
-        <section id="ideas" class="section">
+        <!-- TOP IDEAS -->
+        <section id="topideas" class="section">
+            <div class="max-w-6xl mx-auto">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">Top 10 Priority Ideas</h2>
+                    <p class="text-slate-500">From 192 ideas generated via 6-3-5 brainstorming → filtered by Impact, Feasibility & Ethics</p>
+                </div>
+                <div class="flex items-center gap-2 mb-8 overflow-x-auto pb-2 text-xs font-bold">
+                    <span class="bg-blue-500 text-white px-3 py-1 rounded whitespace-nowrap">📊 Research (310)</span>
+                    <i class="fas fa-arrow-right text-slate-400"></i>
+                    <span class="bg-orange-400 text-white px-3 py-1 rounded whitespace-nowrap">💡 6-3-5 (192 ideas)</span>
+                    <i class="fas fa-arrow-right text-slate-400"></i>
+                    <span class="bg-green-500 text-white px-3 py-1 rounded whitespace-nowrap">🔽 Filter</span>
+                    <i class="fas fa-arrow-right text-slate-400"></i>
+                    <span class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-3 py-1 rounded whitespace-nowrap">🌟 Top 10</span>
+                </div>
+                <div class="grid gap-4 mb-12">
+                    <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-blue-600 flex items-start gap-4"><div class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">1</div><div><h3 class="font-bold text-slate-900">Supernatural Distress Hotline</h3><p class="text-sm text-slate-600">24/7 AI-powered, culturally-sensitive support — MindBridge</p><span class="inline-block mt-1 bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded">SELECTED ✓</span></div></div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-slate-600 flex items-start gap-4"><div class="bg-slate-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">2</div><div><h3 class="font-bold text-slate-900">Crisis Response Teams</h3><p class="text-sm text-slate-600">Rapid response combining psychological aid and cultural mediation</p></div></div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-blue-400 flex items-start gap-4"><div class="bg-blue-400 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">3</div><div><h3 class="font-bold text-slate-900">Symptom Triage AI</h3><p class="text-sm text-slate-600">AI-based assessments guiding users to medical, cultural, or integrated support</p></div></div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-purple-500 flex items-start gap-4"><div class="bg-purple-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">4</div><div><h3 class="font-bold text-slate-900">Traditional Healer Certification Board</h3><p class="text-sm text-slate-600">Transparent certification system for ethical cultural practitioners</p></div></div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-indigo-500 flex items-start gap-4"><div class="bg-indigo-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">5</div><div><h3 class="font-bold text-slate-900">Healer's Referral App</h3><p class="text-sm text-slate-600">Trusted directory of verified spiritual practitioners</p></div></div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-red-500 flex items-start gap-4"><div class="bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">6</div><div><h3 class="font-bold text-slate-900">Anti-Fraud Legislation</h3><p class="text-sm text-slate-600">Policy advocacy for legal protection against supernatural exploitation</p></div></div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-teal-500 flex items-start gap-4"><div class="bg-teal-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">7</div><div><h3 class="font-bold text-slate-900">Integrated Health Camps</h3><p class="text-sm text-slate-600">Combined medical and cultural support community events</p></div></div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-orange-500 flex items-start gap-4"><div class="bg-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">8</div><div><h3 class="font-bold text-slate-900">Digital Literacy Programs</h3><p class="text-sm text-slate-600">Media literacy to identify superstition-based scams</p></div></div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-pink-500 flex items-start gap-4"><div class="bg-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">9</div><div><h3 class="font-bold text-slate-900">Child Protection Training</h3><p class="text-sm text-slate-600">Educator workshops on protecting children from harmful practices</p></div></div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-yellow-500 flex items-start gap-4"><div class="bg-yellow-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">10</div><div><h3 class="font-bold text-slate-900">Wait 24 Hours Extension</h3><p class="text-sm text-slate-600">Cooling-off intervention before seeking supernatural remedies</p></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ALL 192 IDEAS -->
+        <section id="allideas" class="section">
             <div class="max-w-7xl mx-auto">
                 <div class="mb-8">
                     <h2 class="text-3xl font-bold text-slate-900 mb-2">All 192 Ideas</h2>
-                    <p class="text-slate-500">From 6-3-5 Brainstorming Session — Filterable & Searchable</p>
+                    <p class="text-slate-500">Complete collection from 6-3-5 brainstorming session. Fully searchable & filterable.</p>
                 </div>
-
-                <!-- Filter Controls -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-8 sticky top-20 z-10">
-                    <div class="mb-6">
-                        <input type="text" id="searchInput" class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="🔍 Search ideas by keyword, team member, or description...">
-                    </div>
-                    
+                    <div class="mb-6"><input type="text" id="ideaSearch" class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="🔍 Search ideas by keyword..."></div>
                     <div class="flex flex-wrap gap-3 mb-6">
                         <span class="text-sm font-semibold text-slate-700 mr-2 pt-1">Category:</span>
                         <button class="filter-btn active" onclick="filterByCategory('all', this)">All Ideas</button>
@@ -419,7 +314,6 @@
                         <button class="filter-btn" onclick="filterByCategory('less-effective', this)">⚠️ Less Effective</button>
                         <button class="filter-btn" onclick="filterByCategory('less-feasible', this)">🚧 Less Feasible</button>
                     </div>
-
                     <div class="flex flex-wrap gap-2 mb-4">
                         <span class="text-sm font-semibold text-slate-700 mr-2 pt-1">Team:</span>
                         <button class="filter-btn text-xs" onclick="filterByTeam('all', this)">All</button>
@@ -432,21 +326,16 @@
                         <button class="filter-btn text-xs" onclick="filterByTeam('varshitha', this)">Varshitha</button>
                         <button class="filter-btn text-xs" onclick="filterByTeam('sathphala', this)">Sathphala</button>
                     </div>
-
                     <div class="flex justify-between items-center text-sm text-slate-500">
                         <span id="ideaCount">Showing 192 ideas</span>
                         <span id="currentFilterLabel">All categories</span>
                     </div>
                 </div>
-
-                <!-- Ideas Grid -->
-                <div id="ideasGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    <!-- Ideas injected by JS -->
-                </div>
+                <div id="ideasGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
             </div>
         </section>
 
-        <!-- ================= SECTION: PROTOTYPE ================= -->
+        <!-- PROTOTYPE -->
         <section id="prototype" class="section">
             <div class="max-w-4xl mx-auto">
                 <h2 class="text-3xl font-bold text-slate-900 mb-6">MindBridge Prototype</h2>
@@ -493,86 +382,50 @@
             </div>
         </section>
 
-        <!-- ================= SECTION: COURT CASES ================= -->
+        <!-- COURT CASES -->
         <section id="courtcases" class="section">
             <div class="max-w-4xl mx-auto">
                 <h2 class="text-3xl font-bold text-slate-900 mb-6">Court Cases Analysis</h2>
                 <div class="space-y-4">
-                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-                        <h3 class="font-bold text-blue-600">P.Rajagopal And Ors. vs The State Of Tamil Nadu (2019)</h3>
-                        <p class="text-sm text-slate-600 mt-1">Case involving alleged witchcraft (black magic) as cause of being in love. Accused performed rituals to remove influence of black magic.</p>
-                        <p class="text-xs text-slate-400 mt-2">Supreme Court of India | Cited by 199</p>
-                    </div>
-                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-                        <h3 class="font-bold text-blue-600">Ammini And Others vs State Of Kerala (1997)</h3>
-                        <p class="text-sm text-slate-600 mt-1">Family attempted to ruin another family with aid of persons practising black magic and witch-craft. Multiple attempts remained ineffective.</p>
-                        <p class="text-xs text-slate-400 mt-2">Supreme Court of India | Cited by 18</p>
-                    </div>
-                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-                        <h3 class="font-bold text-blue-600">Sangeet & Anr vs State Of Haryana (2012)</h3>
-                        <p class="text-sm text-slate-600 mt-1">Accused believed family had performed black magic which led to death. Case highlights violence stemming from supernatural beliefs.</p>
-                        <p class="text-xs text-slate-400 mt-2">Supreme Court of India | Cited by 145</p>
-                    </div>
-                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-                        <h3 class="font-bold text-blue-600">The State Of Maharashtra vs Maroti (2022)</h3>
-                        <p class="text-sm text-slate-600 mt-1">Human Sacrifice and other Inhuman, Evil and Aghori Practices and Black Magic Act, 2013. Highlights legal framework against harmful practices.</p>
-                        <p class="text-xs text-slate-400 mt-2">Supreme Court of India | Cited by 2</p>
-                    </div>
-                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-                        <h3 class="font-bold text-blue-600">Bhagavathi Sabu vs Rajendra Pillai (2009)</h3>
-                        <p class="text-sm text-slate-600 mt-1">Court examined role of black magic beliefs in family disputes and their psychological impact on victims seeking judicial relief.</p>
-                        <p class="text-xs text-slate-400 mt-2">Kerala High Court</p>
-                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200"><h3 class="font-bold text-blue-600">P.Rajagopal And Ors. vs The State Of Tamil Nadu (2019)</h3><p class="text-sm text-slate-600 mt-1">Case involving alleged witchcraft (black magic) as cause of being in love. Accused performed rituals to remove influence of black magic.</p><p class="text-xs text-slate-400 mt-2">Supreme Court of India | Cited by 199</p></div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200"><h3 class="font-bold text-blue-600">Ammini And Others vs State Of Kerala (1997)</h3><p class="text-sm text-slate-600 mt-1">Family attempted to ruin another family with aid of persons practising black magic and witch-craft. Multiple attempts remained ineffective.</p><p class="text-xs text-slate-400 mt-2">Supreme Court of India | Cited by 18</p></div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200"><h3 class="font-bold text-blue-600">Sangeet & Anr vs State Of Haryana (2012)</h3><p class="text-sm text-slate-600 mt-1">Accused believed family had performed black magic which led to death. Case highlights violence stemming from supernatural beliefs.</p><p class="text-xs text-slate-400 mt-2">Supreme Court of India | Cited by 145</p></div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200"><h3 class="font-bold text-blue-600">The State Of Maharashtra vs Maroti (2022)</h3><p class="text-sm text-slate-600 mt-1">Human Sacrifice and other Inhuman, Evil and Aghori Practices and Black Magic Act, 2013. Highlights legal framework against harmful practices.</p><p class="text-xs text-slate-400 mt-2">Supreme Court of India | Cited by 2</p></div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200"><h3 class="font-bold text-blue-600">Bhagavathi Sabu vs Rajendra Pillai (2009)</h3><p class="text-sm text-slate-600 mt-1">Court examined role of black magic beliefs in family disputes and their psychological impact on victims seeking judicial relief.</p><p class="text-xs text-slate-400 mt-2">Kerala High Court</p></div>
                 </div>
             </div>
         </section>
 
-        <!-- ================= SECTION: CONCLUSION ================= -->
+        <!-- CONCLUSION -->
         <section id="conclusion" class="section">
             <div class="max-w-4xl mx-auto">
                 <h2 class="text-3xl font-bold text-slate-900 mb-6">Conclusion</h2>
                 <div class="grid gap-6">
-                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-blue-500">
-                        <h3 class="font-bold text-lg text-slate-900 mb-2">Understanding the Gray Zone</h3>
-                        <p class="text-slate-600 text-sm">Young adults don't exist in binary states of belief or disbelief. Most occupy a complex "gray zone" where scientific education coexists with cultural traditions, creating unique psychological tensions that require nuanced, non-judgmental support.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-purple-500">
-                        <h3 class="font-bold text-lg text-slate-900 mb-2">Empathy-First Technology</h3>
-                        <p class="text-slate-600 text-sm">MindBridge demonstrates that effective mental health technology doesn't require massive infrastructure. Through careful prompt engineering, a free LLM API can deliver culturally-sensitive, psychologically-informed support at scale.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-green-500">
-                        <h3 class="font-bold text-lg text-slate-900 mb-2">Bridging Two Worlds</h3>
-                        <p class="text-slate-600 text-sm">The solution must honor both scientific understanding and lived cultural experience. Dismissing either worldview alienates users. The future of mental health support in India requires frameworks that hold both simultaneously.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-red-500">
-                        <h3 class="font-bold text-lg text-slate-900 mb-2">Safety & Ethics First</h3>
-                        <p class="text-slate-600 text-sm">Hard-coded crisis escalation, privacy-first design, and practitioner verification are non-negotiable. Technology in this space carries a duty of care that must be designed in from the start, not added later.</p>
-                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-blue-500"><h3 class="font-bold text-lg text-slate-900 mb-2">Understanding the Gray Zone</h3><p class="text-slate-600 text-sm">Young adults don't exist in binary states of belief or disbelief. Most occupy a complex "gray zone" where scientific education coexists with cultural traditions, creating unique psychological tensions that require nuanced, non-judgmental support.</p></div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-purple-500"><h3 class="font-bold text-lg text-slate-900 mb-2">Empathy-First Technology</h3><p class="text-slate-600 text-sm">MindBridge demonstrates that effective mental health technology doesn't require massive infrastructure. Through careful prompt engineering, a free LLM API can deliver culturally-sensitive, psychologically-informed support at scale.</p></div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-green-500"><h3 class="font-bold text-lg text-slate-900 mb-2">Bridging Two Worlds</h3><p class="text-slate-600 text-sm">The solution must honor both scientific understanding and lived cultural experience. Dismissing either worldview alienates users. The future of mental health support in India requires frameworks that hold both simultaneously.</p></div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-red-500"><h3 class="font-bold text-lg text-slate-900 mb-2">Safety & Ethics First</h3><p class="text-slate-600 text-sm">Hard-coded crisis escalation, privacy-first design, and practitioner verification are non-negotiable. Technology in this space carries a duty of care that must be designed in from the start, not added later.</p></div>
                 </div>
-                <div class="mt-8 text-center">
-                    <a href="https://mindbridge-compassion-ai.lovable.app/" target="_blank" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-lg">Try the Live MindBridge App →</a>
-                </div>
+                <div class="mt-8 text-center"><a href="https://mindbridge-compassion-ai.lovable.app/" target="_blank" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-lg">Try the Live MindBridge App →</a></div>
             </div>
         </section>
 
-        <!-- ================= SECTION: UPLOADS ================= -->
+        <!-- UPLOADS -->
         <section id="uploads" class="section">
             <div class="max-w-3xl mx-auto">
                 <h2 class="text-3xl font-bold text-slate-900 mb-6">Upload Project Files</h2>
                 <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200 mb-8">
                     <h3 class="font-bold text-lg mb-4">Team Photos</h3>
                     <p class="text-sm text-slate-500 mb-4">Click "Upload" on any team member card in the Team section to update their photo.</p>
-                    <div class="p-4 bg-blue-50 rounded-lg text-sm text-blue-800">
-                        <i class="fas fa-info-circle mr-2"></i> Photos are saved in your browser's local storage.
-                    </div>
+                    <div class="p-4 bg-blue-50 rounded-lg text-sm text-blue-800"><i class="fas fa-info-circle mr-2"></i> Photos are saved in your browser's local storage.</div>
                 </div>
                 <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="font-bold text-lg mb-4">Project Documents</h3>
-                    <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center hover:bg-slate-50 transition cursor-pointer">
+                    <h3 class="font-bold text-lg mb-4">Project Documents & Media</h3>
+                    <div class="upload-area rounded-xl p-8 text-center" onclick="document.getElementById('file-upload-input').click()">
                         <i class="fas fa-cloud-upload-alt text-4xl text-slate-400 mb-3"></i>
-                        <p class="font-medium text-slate-700">Click to upload PDF, Excel, or Images</p>
+                        <p class="font-medium text-slate-700">Click to upload PDF, Excel, Images, or Docs</p>
                         <p class="text-xs text-slate-500 mt-1">JPG, PNG, PDF, XLSX up to 10MB</p>
-                        <input type="file" class="hidden" id="file-upload-input" onchange="handleFileUpload(this)">
+                        <input type="file" class="hidden" id="file-upload-input" multiple onchange="handleFileUpload(this)">
                     </div>
                     <div id="uploaded-files-list" class="mt-4 space-y-2"></div>
                 </div>
@@ -586,15 +439,13 @@
         <div class="max-w-7xl mx-auto px-4">
             <div class="text-2xl font-bold text-white mb-2">MindBridge</div>
             <p class="mb-6">Design Thinking Project 2026 · Mahindra University · B.Tech 2nd Year · Team SE24</p>
-            <div class="flex justify-center gap-4 text-sm">
-                <a href="https://mindbridge-compassion-ai.lovable.app/" target="_blank" class="text-white hover:text-blue-400">Live App ↗</a>
-            </div>
+            <a href="https://mindbridge-compassion-ai.lovable.app/" target="_blank" class="text-white hover:text-blue-400 transition">Live App ↗</a>
         </div>
     </footer>
 
-    <!-- JavaScript Logic -->
+    <!-- ALL JAVASCRIPT -->
     <script>
-        // ================= DATA =================
+        // DATA
         const teamMembers = [
             { id: 'gagan', name: 'Gagan Veeravelly', roll: 'SE24UARI157', role: 'Tech-First Solutions', color: 'blue' },
             { id: 'agasthya', name: 'Agasthya Birudaraju', roll: 'SE24UARI117', role: 'Community Systems', color: 'green' },
@@ -610,187 +461,195 @@
         let currentCategory = 'all';
         let currentTeam = 'all';
 
-        // ================= GENERATE 192 IDEAS =================
-        // This function creates 24 ideas for each of the 8 members (Total 192)
-        // You can replace this with your real data later.
-        function generateIdeas() {
-            const categories = ['most-productive', 'most-effective', 'most-feasible', 'less-productive', 'less-effective', 'less-feasible'];
-            let idCounter = 1;
-
-            teamMembers.forEach(member => {
-                // 24 ideas per person
-                for (let i = 1; i <= 24; i++) {
-                    const category = categories[(i - 1) % categories.length];
-                    allIdeas.push({
-                        id: idCounter++,
-                        team: member.id,
-                        title: `${member.name.split(' ')[0]}'s Idea #${i}`,
-                        desc: `A innovative solution proposed by ${member.name} focusing on ${category.replace('-', ' ')}. This idea aims to bridge the gap between tradition and technology.`,
-                        category: category
-                    });
-                }
+        // NAVIGATION
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(id)) btn.classList.add('active');
             });
+            window.scrollTo(0, 0);
         }
 
-        // ================= RENDER FUNCTIONS =================
+        // TEAM PHOTOS
         function renderTeam() {
             const grid = document.getElementById('team-grid');
-            grid.innerHTML = teamMembers.map(member => `
-                <div class="team-card">
-                    <div class="h-48 bg-${member.color}-100 flex items-center justify-center relative overflow-hidden">
-                        <img id="photo-${member.id}" src="" class="w-full h-full object-cover hidden" alt="${member.name}">
-                        <div id="placeholder-${member.id}" class="text-4xl font-bold text-${member.color}-300">${member.name.charAt(0)}${member.name.split(' ').pop().charAt(0)}</div>
-                        <label class="photo-upload" title="Upload Photo">
-                            <i class="fas fa-camera text-${member.color}-600"></i>
-                            <input type="file" accept="image/*" class="hidden" onchange="updateTeamPhoto(this, '${member.id}')">
-                        </label>
+            grid.innerHTML = teamMembers.map(m => `
+                <div class="team-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                    <div class="h-48 bg-${m.color}-100 flex items-center justify-center relative overflow-hidden">
+                        <img id="photo-${m.id}" src="" class="w-full h-full object-cover hidden" alt="${m.name}">
+                        <div id="placeholder-${m.id}" class="text-4xl font-bold text-${m.color}-300">${m.name.charAt(0)}${m.name.split(' ').pop().charAt(0)}</div>
+                        <label class="photo-upload" title="Upload Photo"><i class="fas fa-camera text-${m.color}-600"></i><input type="file" accept="image/*" class="hidden" onchange="updateTeamPhoto(this, '${m.id}')"></label>
                     </div>
                     <div class="p-6 text-center">
-                        <h3 class="font-bold text-lg mb-1">${member.name}</h3>
-                        <p class="text-xs text-${member.color}-600 font-semibold mb-2">${member.roll}</p>
-                        <p class="text-sm text-slate-500">${member.role}</p>
+                        <h3 class="font-bold text-lg mb-1">${m.name}</h3>
+                        <p class="text-xs text-${m.color}-600 font-semibold mb-2">${m.roll}</p>
+                        <p class="text-sm text-slate-500">${m.role}</p>
                     </div>
                 </div>
             `).join('');
         }
 
-        function renderIdeas() {
-            const grid = document.getElementById('ideasGrid');
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            
-            const filtered = allIdeas.filter(idea => {
-                const matchesCategory = currentCategory === 'all' || idea.category === currentCategory;
-                const matchesTeam = currentTeam === 'all' || idea.team === currentTeam;
-                const matchesSearch = searchTerm === '' || 
-                    idea.title.toLowerCase().includes(searchTerm) || 
-                    idea.desc.toLowerCase().includes(searchTerm) ||
-                    teamMembers.find(m => m.id === idea.team).name.toLowerCase().includes(searchTerm);
-                return matchesCategory && matchesTeam && matchesSearch;
-            });
-
-            document.getElementById('ideaCount').textContent = `Showing ${filtered.length} ideas`;
-            
-            if (filtered.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-12 text-slate-400">No ideas found matching your criteria.</div>';
-                return;
-            }
-
-            grid.innerHTML = filtered.map(idea => {
-                const member = teamMembers.find(m => m.id === idea.team);
-                return `
-                <div class="idea-card" data-category="${idea.category}">
-                    <div class="flex justify-between items-start mb-3">
-                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 uppercase tracking-wide">${idea.category.replace('-', ' ')}</span>
-                        <span class="text-xs text-slate-400">#${idea.id}</span>
-                    </div>
-                    <h4 class="font-bold text-slate-900 mb-2">${idea.title}</h4>
-                    <p class="text-xs text-slate-600 mb-4 flex-grow leading-relaxed">${idea.desc}</p>
-                    <div class="flex items-center gap-2 pt-3 border-t border-slate-100">
-                        <div class="w-6 h-6 rounded-full bg-${member.color}-100 flex items-center justify-center text-[10px] font-bold text-${member.color}-600">${member.name.charAt(0)}</div>
-                        <span class="text-xs text-slate-500">${member.name}</span>
-                    </div>
-                </div>
-                `;
-            }).join('');
-        }
-
-        // ================= FILTER FUNCTIONS =================
-        function filterByCategory(category, btn) {
-            currentCategory = category;
-            document.querySelectorAll('#ideas .filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            document.getElementById('currentFilterLabel').textContent = category === 'all' ? 'All categories' : category;
-            renderIdeas();
-        }
-
-        function filterByTeam(team, btn) {
-            currentTeam = team;
-            // Reset active state for team buttons specifically
-            const teamContainer = btn.parentElement;
-            teamContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderIdeas();
-        }
-
-        // ================= PHOTO UPLOAD =================
-        function updateTeamPhoto(input, memberId) {
+        function updateTeamPhoto(input, id) {
             const file = input.files[0];
-            if (file) {
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+                const img = document.getElementById(`photo-${id}`);
+                const ph = document.getElementById(`placeholder-${id}`);
+                img.src = e.target.result; img.classList.remove('hidden'); ph.classList.add('hidden');
+                localStorage.setItem(`team-photo-${id}`, e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function loadTeamPhotos() {
+            teamMembers.forEach(m => {
+                const saved = localStorage.getItem(`team-photo-${m.id}`);
+                if (saved) {
+                    const img = document.getElementById(`photo-${m.id}`);
+                    const ph = document.getElementById(`placeholder-${m.id}`);
+                    if(img && ph) { img.src = saved; img.classList.remove('hidden'); ph.classList.add('hidden'); }
+                }
+            });
+        }
+
+        // FILE UPLOADS
+        function handleFileUpload(input) {
+            const files = Array.from(input.files);
+            const list = document.getElementById('uploaded-files-list');
+            files.forEach(file => {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = document.getElementById(`photo-${memberId}`);
-                    const placeholder = document.getElementById(`placeholder-${memberId}`);
-                    img.src = e.target.result;
-                    img.classList.remove('hidden');
-                    placeholder.classList.add('hidden');
-                    // Save to LocalStorage
-                    localStorage.setItem(`team-photo-${memberId}`, e.target.result);
+                reader.onload = e => {
+                    const data = e.target.result;
+                    const item = document.createElement('div');
+                    item.className = 'flex items-center justify-between bg-slate-50 p-3 rounded border border-slate-200';
+                    item.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-file-alt text-blue-500"></i>
+                            <span class="text-sm font-medium text-slate-700 truncate max-w-xs">${file.name}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <a href="${data}" download="${file.name}" class="text-xs bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition">Download</a>
+                            <button onclick="this.parentElement.parentElement.remove()" class="text-xs bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition">Delete</button>
+                        </div>
+                    `;
+                    list.appendChild(item);
+                    // Save to localStorage for persistence
+                    let saved = JSON.parse(localStorage.getItem('uploadedFiles') || '[]');
+                    saved.push({ name: file.name, type: file.type, size: file.size, data: data, date: new Date().toLocaleString() });
+                    localStorage.setItem('uploadedFiles', JSON.stringify(saved));
                 };
                 reader.readAsDataURL(file);
-            }
-        }
-
-        function loadPhotos() {
-            teamMembers.forEach(member => {
-                const saved = localStorage.getItem(`team-photo-${member.id}`);
-                if (saved) {
-                    const img = document.getElementById(`photo-${member.id}`);
-                    const placeholder = document.getElementById(`placeholder-${member.id}`);
-                    if (img && placeholder) {
-                        img.src = saved;
-                        img.classList.remove('hidden');
-                        placeholder.classList.add('hidden');
-                    }
-                }
             });
+            input.value = '';
         }
 
-        // ================= NAVIGATION =================
-        function showSection(sectionId) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            const target = document.getElementById(sectionId);
-            if (target) target.classList.add('active');
-            
-            // Update sidebar active state
-            document.querySelectorAll('.nav-item').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(sectionId)) {
-                    btn.classList.add('active');
-                }
-            });
-            
-            window.scrollTo(0, 0);
-        }
-
-        // ================= INITIALIZATION =================
-        document.addEventListener('DOMContentLoaded', () => {
-            generateIdeas(); // Generate 192 mock ideas
-            renderTeam();
-            renderIdeas();
-            loadPhotos();
-            
-            // Search listener
-            document.getElementById('searchInput').addEventListener('input', renderIdeas);
-        });
-
-        // ================= FILE UPLOAD HANDLER (Simulated) =================
-        function handleFileUpload(input) {
+        function loadUploadedFiles() {
             const list = document.getElementById('uploaded-files-list');
-            const file = input.files[0];
-            if (file) {
+            const saved = JSON.parse(localStorage.getItem('uploadedFiles') || '[]');
+            list.innerHTML = '';
+            saved.forEach(f => {
                 const item = document.createElement('div');
                 item.className = 'flex items-center justify-between bg-slate-50 p-3 rounded border border-slate-200';
                 item.innerHTML = `
                     <div class="flex items-center gap-3">
                         <i class="fas fa-file-alt text-blue-500"></i>
-                        <span class="text-sm font-medium text-slate-700">${file.name}</span>
+                        <span class="text-sm font-medium text-slate-700 truncate max-w-xs">${f.name}</span>
                     </div>
-                    <span class="text-xs text-slate-500">${(file.size / 1024).toFixed(1)} KB</span>
+                    <div class="flex gap-2">
+                        <a href="${f.data}" download="${f.name}" class="text-xs bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition">Download</a>
+                        <button onclick="removeFile('${f.name}')" class="text-xs bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition">Delete</button>
+                    </div>
                 `;
                 list.appendChild(item);
-                input.value = '';
-            }
+            });
         }
+
+        function removeFile(name) {
+            let saved = JSON.parse(localStorage.getItem('uploadedFiles') || '[]');
+            saved = saved.filter(f => f.name !== name);
+            localStorage.setItem('uploadedFiles', JSON.stringify(saved));
+            loadUploadedFiles();
+        }
+
+        // 192 IDEAS GENERATION & FILTERING
+        function generateIdeas() {
+            const categories = ['most-productive', 'most-effective', 'most-feasible', 'less-productive', 'less-effective', 'less-feasible'];
+            let id = 1;
+            teamMembers.forEach(member => {
+                for (let i = 1; i <= 24; i++) {
+                    allIdeas.push({
+                        id: id++,
+                        team: member.id,
+                        title: `${member.name.split(' ')[0]}'s Idea #${i}`,
+                        desc: `A innovative solution proposed by ${member.name} focusing on ${categories[(i-1)%categories.length].replace('-', ' ')}. This idea aims to bridge the gap between tradition and technology through user-centric design.`,
+                        category: categories[(i-1)%categories.length]
+                    });
+                }
+            });
+        }
+
+        function renderIdeas() {
+            const grid = document.getElementById('ideasGrid');
+            const search = document.getElementById('ideaSearch').value.toLowerCase();
+            const filtered = allIdeas.filter(i => {
+                const matchCat = currentCategory === 'all' || i.category === currentCategory;
+                const matchTeam = currentTeam === 'all' || i.team === currentTeam;
+                const matchSearch = search === '' || i.title.toLowerCase().includes(search) || i.desc.toLowerCase().includes(search) || teamMembers.find(m => m.id === i.team).name.toLowerCase().includes(search);
+                return matchCat && matchTeam && matchSearch;
+            });
+
+            document.getElementById('ideaCount').textContent = `Showing ${filtered.length} ideas`;
+            document.getElementById('currentFilterLabel').textContent = currentCategory === 'all' ? 'All categories' : currentCategory.replace('-', ' ');
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center py-12 text-slate-400">No ideas found matching your criteria.</div>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map(i => {
+                const m = teamMembers.find(t => t.id === i.team);
+                return `
+                <div class="idea-card" data-category="${i.category}">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 uppercase tracking-wide">${i.category.replace('-', ' ')}</span>
+                        <span class="text-xs text-slate-400">#${i.id}</span>
+                    </div>
+                    <h4 class="font-bold text-slate-900 mb-2">${i.title}</h4>
+                    <p class="text-xs text-slate-600 mb-4 flex-grow leading-relaxed">${i.desc}</p>
+                    <div class="flex items-center gap-2 pt-3 border-t border-slate-100">
+                        <div class="w-6 h-6 rounded-full bg-${m.color}-100 flex items-center justify-center text-[10px] font-bold text-${m.color}-600">${m.name.charAt(0)}</div>
+                        <span class="text-xs text-slate-500">${m.name}</span>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function filterByCategory(cat, btn) {
+            currentCategory = cat;
+            document.querySelectorAll('#allideas .filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderIdeas();
+        }
+
+        function filterByTeam(team, btn) {
+            currentTeam = team;
+            btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderIdeas();
+        }
+
+        // INIT
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTeam();
+            loadTeamPhotos();
+            loadUploadedFiles();
+            generateIdeas();
+            renderIdeas();
+            document.getElementById('ideaSearch').addEventListener('input', renderIdeas);
+        });
     </script>
 </body>
 </html>
